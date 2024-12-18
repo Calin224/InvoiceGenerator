@@ -20,6 +20,15 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
+        var loginWindow = new LoginWindow();
+        var loginRes = loginWindow.ShowDialog();
+
+        if (loginRes != true)
+        {
+            Application.Current.Shutdown();
+            return;
+        }
+        
         InitializeComponent();
         LoadPdfs();
     }
