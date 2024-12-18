@@ -10,7 +10,7 @@ namespace InvoiceGenerator.Services;
 
 public class PdfServices
 {
-    private int InvoiceNumber { get; set; } = 0;
+    private int InvoiceNumber { get; set; }
 
     private string test = "test";
     
@@ -52,7 +52,8 @@ public class PdfServices
         yPosition += 20;
         gfx.DrawString($"{user.PhoneNumber}", regularFont, XBrushes.Black, new XPoint(50, yPosition));
         yPosition -= 20;
-        
+
+        yPosition -= 40;
         //coloana pentru client
         gfx.DrawString($"{customerName}", regularFont, XBrushes.Black, new XPoint(350, yPosition));
         yPosition += 20;
