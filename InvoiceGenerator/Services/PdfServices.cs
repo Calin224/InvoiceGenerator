@@ -1,8 +1,10 @@
 ﻿using System.Configuration;
 using System.Globalization;
 using System.IO;
+using InvoiceGenerator.Entities;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using PdfDocument = PdfSharp.Pdf.PdfDocument;
 
 namespace InvoiceGenerator.Services;
 
@@ -12,7 +14,7 @@ public class PdfServices
 
     private string test = "test";
     
-    public byte[] CreatePdf(string customerName, string cui, string adresa, List<(string Item, double Quantity, double UnitPrice)> items, bool platitorTVA)
+    public byte[] CreatePdf(string customerName, string cui, string adresa, List<(string Item, double Quantity, double UnitPrice)> items, bool platitorTVA, User user)
     {
         InvoiceNumber++;
         PdfDocument document = new PdfDocument();
@@ -42,9 +44,13 @@ public class PdfServices
         
         
         // coloana pentru furnizor
-        gfx.DrawString($"SANDU CALIN MIHAI PFA", regularFont, XBrushes.Black, new XPoint(50, yPosition));
+        gfx.DrawString($"{user.UserName.ToUpper()}", regularFont, XBrushes.Black, new XPoint(50, yPosition));
         yPosition += 20;
-        gfx.DrawString($"241415", regularFont, XBrushes.Black, new XPoint(50, yPosition));
+        gfx.DrawString($"{user.CIF}", regularFont, XBrushes.Black, new XPoint(50, yPosition));
+        yPosition += 20;
+        gfx.DrawString($"{user.Address}", regularFont, XBrushes.Black, new XPoint(50, yPosition));
+        yPosition += 20;
+        gfx.DrawString($"{user.PhoneNumber}", regularFont, XBrushes.Black, new XPoint(50, yPosition));
         yPosition -= 20;
         
         //coloana pentru client

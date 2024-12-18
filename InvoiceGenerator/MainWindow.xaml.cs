@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using Path = System.IO.Path;
+using PdfDocument = InvoiceGenerator.Entities.PdfDocument;
 
 namespace InvoiceGenerator;
 
@@ -18,12 +19,14 @@ public partial class MainWindow : Window
 {
     private readonly DataContext _context = new DataContext();
     private readonly PdfServices _pdfServices = new PdfServices();
+
+    public User User { get; set; }
     
     public MainWindow()
     {
         var loginWindow = new LoginWindow();
         var loginRes = loginWindow.ShowDialog();
-        
+
         var registerWindow = new RegisterWindow();
         var currentUserR = registerWindow.RegisteredUsername;
 
@@ -34,11 +37,12 @@ public partial class MainWindow : Window
             Application.Current.Shutdown();
             return;
         }
+
+        var username = string.IsNullOrWhiteSpace(currentUserL) ? currentUserR : currentUserL;
+        User = _context.Users.FirstOrDefault(x => x.UserName == username) ?? throw new UnauthorizedAccessException();
         
         InitializeComponent();
         LoadPdfs();
-        
-        UsernamePlaceholder.Content = string.IsNullOrWhiteSpace(currentUserL) ? currentUserR : currentUserL;
     }
 
     private void UpdateNoItems_OnClick(object sender, RoutedEventArgs e)
@@ -111,19 +115,23 @@ public partial class MainWindow : Window
 
     private void LoadPdfs()
     {
-        var pdfs = _context.PdfDocuments.ToList();
-        PdfListView.ItemsSource = pdfs;
+        // var user = _context.Users.FirstOrDefault(x => x.UserName == Username);
+        if (User != null)
+        {
+            var pdfs = _context.PdfDocuments.Where(x => x.UserId == User.Id).ToList();
+            PdfListView.ItemsSource = pdfs;
+        }
     }
 
     private void GeneratePdf_Click(object sender, RoutedEventArgs e)
     {
         bool platitorTVA = false;
-        
+
         string fileName = FileName.Text;
         string customerName = CustomerName.Text;
         string cui = Cui.Text;
         string adresa = Address.Text;
-        
+
         var items = new List<(string Item, double Quantity, double UnitPrice)>();
 
         for (int i = 0; i < Form.Children.Count; i++)
@@ -131,8 +139,10 @@ public partial class MainWindow : Window
             if (Form.Children[i] is StackPanel itemPanel)
             {
                 var itemBox = itemPanel.Children.OfType<TextBox>().FirstOrDefault(tb => tb.Name.StartsWith("Item_"));
-                var quantityBox = itemPanel.Children.OfType<TextBox>().FirstOrDefault(tb => tb.Name.StartsWith("Quantity_"));
-                var unitPriceBox = itemPanel.Children.OfType<TextBox>().FirstOrDefault(tb => tb.Name.StartsWith("UnitPrice_"));
+                var quantityBox = itemPanel.Children.OfType<TextBox>()
+                    .FirstOrDefault(tb => tb.Name.StartsWith("Quantity_"));
+                var unitPriceBox = itemPanel.Children.OfType<TextBox>()
+                    .FirstOrDefault(tb => tb.Name.StartsWith("UnitPrice_"));
 
                 if (itemBox == null || quantityBox == null || unitPriceBox == null)
                 {
@@ -147,26 +157,29 @@ public partial class MainWindow : Window
                         MessageBoxImage.Error);
                     return;
                 }
-                
+
                 items.Add((itemBox.Text, quantity, unitPrice));
             }
         }
-        
+
         if (string.IsNullOrWhiteSpace(fileName))
         {
-            MessageBox.Show("Please enter a file name.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("Please enter a file name.", "Validation Error", MessageBoxButton.OK,
+                MessageBoxImage.Error);
             return;
         }
 
         if (string.IsNullOrWhiteSpace(customerName))
         {
-            MessageBox.Show("Please enter a customer name.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("Please enter a customer name.", "Validation Error", MessageBoxButton.OK,
+                MessageBoxImage.Error);
             return;
         }
 
         if (items.Count == 0)
         {
-            MessageBox.Show("Please enter at least one item.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("Please enter at least one item.", "Validation Error", MessageBoxButton.OK,
+                MessageBoxImage.Error);
             return;
         }
 
@@ -174,25 +187,32 @@ public partial class MainWindow : Window
         {
             platitorTVA = true;
         }
+        
+        byte[] pdfBytes = _pdfServices.CreatePdf(customerName, cui, adresa, items, platitorTVA, User);
 
-        byte[] pdfBytes = _pdfServices.CreatePdf(customerName, cui, adresa, items, platitorTVA);
-        
         SavePdf(pdfBytes, fileName);
-        
+
         FileName.Clear();
         CustomerName.Clear();
         Form.Children.Clear();
-        
+
         LoadPdfs();
     }
 
     private void SavePdf(byte[] data, string fileName)
     {
-        var pdfDocument = new Entities.PdfDocument() 
+        if (User == null)
+        {
+            MessageBox.Show("User not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+        
+        var pdfDocument = new Entities.PdfDocument()
         {
             FileName = fileName,
             FileData = data,
-            DateCreated = DateTime.Now
+            DateCreated = DateTime.Now,
+            UserId = User.Id
         };
 
         _context.PdfDocuments.Add(pdfDocument);
@@ -202,9 +222,8 @@ public partial class MainWindow : Window
     private void OpenPdf_Click(object sender, RoutedEventArgs e)
     {
         var button = sender as Button;
-        if (button == null) return;
 
-        if (button.Tag is not int pdfId) return;
+        if (button?.Tag is not int pdfId) return;
 
         var pdf = _context.PdfDocuments.FirstOrDefault(p => p.Id == pdfId);
 
@@ -231,10 +250,8 @@ public partial class MainWindow : Window
     private void DeletePdfButton_OnClick(object sender, RoutedEventArgs e)
     {
         var button = sender as Button;
-        if (button == null)
-            return;
 
-        if (button.Tag is not int pdfId) return;
+        if (button?.Tag is not int pdfId) return;
 
         var pdf = _context.PdfDocuments.FirstOrDefault(x => x.Id == pdfId);
 

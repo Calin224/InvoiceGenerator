@@ -9,12 +9,14 @@
         Title="LoginWindow" Height="450" Width="800">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
-            <TextBox
-                x:Name="Username"
-                Margin="10"
-                materialDesign:HintAssist.Hint="File name"
-                materialDesign:HintAssist.IsFloating="True">
-            </TextBox>
+            <!-- <TextBox -->
+            <!--     x:Name="Username" -->
+            <!--     Margin="10" -->
+            <!--     materialDesign:HintAssist.Hint="File name" -->
+            <!--     materialDesign:HintAssist.IsFloating="True"> -->
+            <!-- </TextBox> -->
+            
+            <ComboBox x:Name="Username"></ComboBox>
 
             <PasswordBox x:Name="Password" Margin="10" materialDesign:HintAssist.Hint="Password"
                          materialDesign:HintAssist.IsFloating="True">

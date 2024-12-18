@@ -12,7 +12,7 @@
             <TextBox
                 x:Name="Username"
                 Margin="10"
-                materialDesign:HintAssist.Hint="File name"
+                materialDesign:HintAssist.Hint="Username"
                 materialDesign:HintAssist.IsFloating="True">
             </TextBox>
 
@@ -20,9 +20,21 @@
                          materialDesign:HintAssist.IsFloating="True">
             </PasswordBox>
             
+            <PasswordBox x:Name="ConfirmPassword" Margin="10" materialDesign:HintAssist.Hint="Confirm Password"
+                         materialDesign:HintAssist.IsFloating="True"></PasswordBox>
+            
+            <TextBox x:Name="CIF" Margin="10" materialDesign:HintAssist.Hint="CIF"
+                     materialDesign:HintAssist.IsFloating="True"></TextBox>
+            
+            <TextBox x:Name="Adresa" Margin="10" materialDesign:HintAssist.Hint="Adresa"
+                     materialDesign:HintAssist.IsFloating="True"></TextBox>
+            
+            <TextBox x:Name="NumarTelefon" Margin="10" materialDesign:HintAssist.Hint="Numar telefon"
+                     materialDesign:HintAssist.IsFloating="True"></TextBox>
+            
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Content="Register" Width="100" Margin="10" HorizontalAlignment="Center" Click="RegisterButton_Click" Background="DarkGreen"></Button>
-                <Button Content="Cancel" Width="100" Margin="10" HorizontalAlignment="Center" Click="LoginRedirect_Click" Background="DarkRed"/>
+                <Button Content="Register" Width="100" Margin="10" HorizontalAlignment="Center" Click="RegisterButton_Click" Background="MediumPurple"></Button>
+                <Button Content="Cancel" Width="100" Margin="10" HorizontalAlignment="Center" Click="LoginRedirect_Click" Background="Purple"/>
             </StackPanel>
         </StackPanel>
     </Grid>

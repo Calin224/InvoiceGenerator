@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using InvoiceGenerator.Data;
+using InvoiceGenerator.Entities;
 
 namespace InvoiceGenerator;
 
@@ -12,6 +13,13 @@ public partial class LoginWindow : Window
     public LoginWindow()
     {
         InitializeComponent();
+        
+        // populate combobox with usernames
+        var users = _context.Users.Select(x => x.UserName).ToList();
+        foreach(var user in users)
+        {
+            Username.Items.Add(user);
+        }
     }
 
     private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -21,6 +29,13 @@ public partial class LoginWindow : Window
 
         if (ValidateLogin(username, password))
         {
+            var user = _context.Users.FirstOrDefault(x => x.UserName == username);
+            if (user != null)
+            {
+                user.IsLoggedOut = false;
+                _context.SaveChanges();
+            }
+
             CurrentUsername = username;
             DialogResult = true;
             Close();

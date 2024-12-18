@@ -21,5 +21,11 @@ public class DataContext : DbContext
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(PdfConfiguration).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
+
+        modelBuilder.Entity<User>()
+            .HasMany(e => e.Pdfs)
+            .WithOne(e => e.User)
+            .HasForeignKey(e => e.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

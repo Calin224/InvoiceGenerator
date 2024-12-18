@@ -4,6 +4,7 @@ using InvoiceGenerator.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceGenerator.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241218210954_ModifiedUserClass2")]
+    partial class ModifiedUserClass2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,12 +44,7 @@ namespace InvoiceGenerator.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("PdfDocuments");
                 });
@@ -66,9 +64,6 @@ namespace InvoiceGenerator.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsLoggedOut")
-                        .HasColumnType("bit");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(255)");
@@ -83,22 +78,6 @@ namespace InvoiceGenerator.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("InvoiceGenerator.Entities.PdfDocument", b =>
-                {
-                    b.HasOne("InvoiceGenerator.Entities.User", "User")
-                        .WithMany("Pdfs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("InvoiceGenerator.Entities.User", b =>
-                {
-                    b.Navigation("Pdfs");
                 });
 #pragma warning restore 612, 618
         }
