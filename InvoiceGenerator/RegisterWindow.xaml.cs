@@ -34,7 +34,7 @@ public partial class RegisterWindow : Window
 
         if (password == confirmPassword)
         {
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password); // encrypt the password
 
             var user = new User()
             {

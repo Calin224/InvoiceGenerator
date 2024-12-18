@@ -263,6 +263,14 @@ public partial class MainWindow : Window
 
         LoadPdfs();
 
-        MessageBox.Show("Pdf file deleted succesfully!");
+        MessageBox.Show("Pdf file deleted successfully!");
+    }
+
+    private void LogoutButton_Click(object sender, RoutedEventArgs e)
+    {
+        User = null;
+        Close();
+        var loginWindow = new LoginWindow();
+        loginWindow.ShowDialog();
     }
 }

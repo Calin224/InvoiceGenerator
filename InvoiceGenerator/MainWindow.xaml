@@ -7,72 +7,82 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Style="{StaticResource MaterialDesignWindow}"
-        Title="InvoiceGeneraotr" Height="900" Width="1920">
+        Title="Invoice generator" Height="900" Width="1280">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20 0 20 0">
-                <Label x:Name="UsernamePlaceholder"></Label>
-                <StackPanel Orientation="Vertical">
-                    <TextBox x:Name="FileName" Margin="10" Width="200"
-                             materialDesign:HintAssist.Hint="File name"
-                             materialDesign:HintAssist.IsFloating="True">
-                    </TextBox>
-                    <TextBox
-                        x:Name="CustomerName"
-                        Margin="10" Width="200"
-                        materialDesign:HintAssist.Hint="Customer name"
-                        materialDesign:HintAssist.IsFloating="True">
-                    </TextBox>
-                    
-                    <TextBox
-                        x:Name="Cui"
-                        Margin="10" Width="200"
-                        materialDesign:HintAssist.Hint="CUI"
-                        materialDesign:HintAssist.IsFloating="True">
-                    </TextBox>
-                    
-                    <TextBox
-                        x:Name="Address"
-                        Margin="10" Width="200"
-                        materialDesign:HintAssist.Hint="Adresa"
-                        materialDesign:HintAssist.IsFloating="True">
-                    </TextBox>
 
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20 0 20 0">
+                    <Label x:Name="UsernamePlaceholder"></Label>
                     <StackPanel Orientation="Vertical">
-                        <TextBox
-                            x:Name="NoItems"
-                            Width="200"
-                            Margin="15"
-                            materialDesign:HintAssist.Hint="File name"
-                            materialDesign:HintAssist.IsFloating="True">
-                            1
+                        <TextBox x:Name="FileName" Margin="10" Width="200"
+                                 materialDesign:HintAssist.Hint="File name"
+                                 materialDesign:HintAssist.IsFloating="True">
                         </TextBox>
-                        <Button x:Name="UpdateNoItems" Click="UpdateNoItems_OnClick"
-                                Content="Update the number of items">
-                        </Button>
+                        <TextBox
+                            x:Name="CustomerName"
+                            Margin="10" Width="200"
+                            materialDesign:HintAssist.Hint="Customer name"
+                            materialDesign:HintAssist.IsFloating="True">
+                        </TextBox>
+
+                        <TextBox
+                            x:Name="Cui"
+                            Margin="10" Width="200"
+                            materialDesign:HintAssist.Hint="CUI"
+                            materialDesign:HintAssist.IsFloating="True">
+                        </TextBox>
+
+                        <TextBox
+                            x:Name="Address"
+                            Margin="10" Width="200"
+                            materialDesign:HintAssist.Hint="Adresa"
+                            materialDesign:HintAssist.IsFloating="True">
+                        </TextBox>
+
+                        <StackPanel Orientation="Vertical">
+                            <TextBox
+                                x:Name="NoItems"
+                                Width="200"
+                                Margin="15"
+                                materialDesign:HintAssist.Hint="File name"
+                                materialDesign:HintAssist.IsFloating="True">
+                                1
+                            </TextBox>
+                            <Button x:Name="UpdateNoItems" Click="UpdateNoItems_OnClick"
+                                    Content="Update the number of items">
+                            </Button>
+                        </StackPanel>
+
+                        <StackPanel x:Name="Form">
+                            
+                        </StackPanel>
                     </StackPanel>
 
-                    <StackPanel x:Name="Form">
-                        <!-- <TextBox x:Name="Item" Margin="10" Width="200"></TextBox> -->
-                        <!-- <TextBox x:Name="Quantity" Margin="10" Width="200"></TextBox> -->
-                        <!-- <TextBox x:Name="UnitPrice" Margin="10" Width="200"></TextBox> -->
-                    </StackPanel>
+                    <Button Click="GeneratePdf_Click" Content="Generate" Margin="10" Width="200"></Button>
                 </StackPanel>
-
-                <Button Click="GeneratePdf_Click" Content="Generate" Margin="10" Width="200"></Button>
+            </ScrollViewer>
+            
+            <StackPanel Grid.Row="0" Margin="10">
+                <Button Content="Logout" Click="LogoutButton_Click"></Button>
             </StackPanel>
-        </ScrollViewer>
+            
+        </Grid>
 
         <ListView Grid.Column="1" x:Name="PdfListView" Margin="10 10">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
-                    <GridViewColumn Header="Name" Width="500" DisplayMemberBinding="{Binding FileName}"></GridViewColumn>
-                    <GridViewColumn Header="Open" Width="300">
+                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding FileName}"></GridViewColumn>
+                    <GridViewColumn Header="Open" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Click="OpenPdf_Click" Content="Open Pdf" Tag="{Binding Id}"
@@ -92,7 +102,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="Delete" Width="300">
+                    <GridViewColumn Header="Delete" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Click="DeletePdfButton_OnClick" Content="Delete Pdf" Tag="{Binding Id}"
@@ -100,8 +110,8 @@
                                         VerticalAlignment="Center">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
-                                            <Border CornerRadius="10" Background="GreenYellow"
-                                                    BorderBrush="GreenYellow"
+                                            <Border CornerRadius="10" Background="MediumPurple"
+                                                    BorderBrush="MediumPurple"
                                                     Padding="10">
                                                 <ContentPresenter HorizontalAlignment="Center"
                                                                   VerticalAlignment="Center">
@@ -113,7 +123,6 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
                     <GridViewColumn Header="Date Added" Width="300" DisplayMemberBinding="{Binding DateCreated}">
                     </GridViewColumn>
                 </GridView>
