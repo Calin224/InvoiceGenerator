@@ -3,6 +3,10 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+#dockerfiles
+.vscode
+docker-compose.yml
+
 # dotenv files
 .env
 
