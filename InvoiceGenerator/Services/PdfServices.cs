@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Globalization;
 using System.IO;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
@@ -15,6 +16,8 @@ public class PdfServices
     {
         InvoiceNumber++;
         PdfDocument document = new PdfDocument();
+        CultureInfo ron = new CultureInfo("ro-RO");
+        
         document.Info.Title = "Invoice PDF";
 
         PdfPage page = document.AddPage();
@@ -27,7 +30,7 @@ public class PdfServices
 
         gfx.DrawString("Factura proforma", titleFont, XBrushes.Black, new XPoint(100, yPosition));
         yPosition += 20;
-        gfx.DrawString($"Invoice Number: {InvoiceNumber}", regularFont, XBrushes.Black, new XPoint(100, yPosition));
+        gfx.DrawString($"Numar: {InvoiceNumber}", regularFont, XBrushes.Black, new XPoint(100, yPosition));
         yPosition += 20;
         gfx.DrawString($"Data: {DateTime.UtcNow.ToString().Substring(0, 10)}", titleFont, XBrushes.Black, new XPoint(100, yPosition));
         
@@ -74,15 +77,15 @@ public class PdfServices
 
             gfx.DrawString(item.Item, regularFont, XBrushes.Black, new XPoint(50, yPosition));
             gfx.DrawString($"{item.Quantity}", regularFont, XBrushes.Black, new XPoint(150, yPosition));
-            gfx.DrawString(item.UnitPrice.ToString("C"), regularFont, XBrushes.Black, new XPoint(250, yPosition));
-            gfx.DrawString(itemTotal.ToString("C"), regularFont, XBrushes.Black, new XPoint(450, yPosition));
+            gfx.DrawString(item.UnitPrice.ToString("C", ron), regularFont, XBrushes.Black, new XPoint(250, yPosition));
+            gfx.DrawString(itemTotal.ToString("C", ron), regularFont, XBrushes.Black, new XPoint(450, yPosition));
             
             yPosition += 20;
         }
 
         DrawLine(gfx, ref yPosition);
         gfx.DrawString("Valoare fara TVA:", headerFont, XBrushes.Black, new XPoint(350, yPosition));
-        gfx.DrawString($"{totalAmount.ToString("C")}", headerFont, XBrushes.Black, new XPoint(470, yPosition));
+        gfx.DrawString($"{totalAmount.ToString("C", ron)}", headerFont, XBrushes.Black, new XPoint(470, yPosition));
         yPosition += 20;
 
         if (platitorTVA)
@@ -91,7 +94,7 @@ public class PdfServices
             double TVA = totalAmount + totalAmount * 0.19;
             
             gfx.DrawString($"Valoare cu TVA: ", headerFont, XBrushes.Black, new XPoint(350, yPosition));
-            gfx.DrawString($"{TVA.ToString("C")}", headerFont, XBrushes.Black, new XPoint(470, yPosition));
+            gfx.DrawString($"{TVA.ToString("C", ron)}", headerFont, XBrushes.Black, new XPoint(470, yPosition));
         }
         
         using (MemoryStream ms = new MemoryStream())
@@ -100,7 +103,6 @@ public class PdfServices
             return ms.ToArray();
         }
     }
-
 
     private void DrawLine(XGraphics gfx, ref double yPos)
     {
