@@ -1,9 +1,14 @@
 ﻿using System.Windows;
+using InvoiceGenerator.Data;
 
 namespace InvoiceGenerator;
 
 public partial class LoginWindow : Window
 {
+    private readonly DataContext _context = new DataContext();
+
+    public string CurrentUsername { get; set; }
+    
     public LoginWindow()
     {
         InitializeComponent();
@@ -16,6 +21,7 @@ public partial class LoginWindow : Window
 
         if (ValidateLogin(username, password))
         {
+            CurrentUsername = username;
             DialogResult = true;
             Close();
         }
@@ -28,13 +34,20 @@ public partial class LoginWindow : Window
 
     private bool ValidateLogin(string username, string password)
     {
-        return username == "admin" && password == "admin";
+        var user = _context.Users.FirstOrDefault(u => u.UserName == username);
+        if (user == null) return false;
+
+        return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
     }
-
-
+    
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
-        DialogResult = false;
-        Close();
+        var registerWindow = new RegisterWindow();
+        if (registerWindow.ShowDialog() == true)
+        {
+            Username.Text = registerWindow.RegisteredUsername;
+            Password.Focus();
+        }
+        // registerWindow.ShowDialog();
     }
 }

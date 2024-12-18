@@ -16,6 +16,7 @@
         
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20 0 20 0">
+                <Label x:Name="UsernamePlaceholder"></Label>
                 <StackPanel Orientation="Vertical">
                     <TextBox x:Name="FileName" Margin="10" Width="200"
                              materialDesign:HintAssist.Hint="File name"

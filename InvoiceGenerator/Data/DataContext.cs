@@ -13,11 +13,13 @@ public class DataContext : DbContext
     }
 
     public DbSet<PdfDocument> PdfDocuments { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(PdfConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
     }
 }

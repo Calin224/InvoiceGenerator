@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Shapes;
 using InvoiceGenerator.Data;
+using InvoiceGenerator.Entities;
 using InvoiceGenerator.Services;
 using Microsoft.EntityFrameworkCore;
 using PdfSharp.Drawing;
@@ -17,12 +18,17 @@ public partial class MainWindow : Window
 {
     private readonly DataContext _context = new DataContext();
     private readonly PdfServices _pdfServices = new PdfServices();
-
+    
     public MainWindow()
     {
         var loginWindow = new LoginWindow();
         var loginRes = loginWindow.ShowDialog();
+        
+        var registerWindow = new RegisterWindow();
+        var currentUserR = registerWindow.RegisteredUsername;
 
+        var currentUserL = loginWindow.CurrentUsername;
+        
         if (loginRes != true)
         {
             Application.Current.Shutdown();
@@ -31,6 +37,8 @@ public partial class MainWindow : Window
         
         InitializeComponent();
         LoadPdfs();
+        
+        UsernamePlaceholder.Content = string.IsNullOrWhiteSpace(currentUserL) ? currentUserR : currentUserL;
     }
 
     private void UpdateNoItems_OnClick(object sender, RoutedEventArgs e)
