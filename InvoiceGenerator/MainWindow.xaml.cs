@@ -105,6 +105,7 @@ public partial class MainWindow : Window
         string fileName = FileName.Text;
         string customerName = CustomerName.Text;
         string cui = Cui.Text;
+        string adresa = Address.Text;
         
         var items = new List<(string Item, double Quantity, double UnitPrice)>();
 
@@ -157,7 +158,7 @@ public partial class MainWindow : Window
             platitorTVA = true;
         }
 
-        byte[] pdfBytes = _pdfServices.CreatePdf(customerName, cui, items, platitorTVA);
+        byte[] pdfBytes = _pdfServices.CreatePdf(customerName, cui, adresa, items, platitorTVA);
         
         SavePdf(pdfBytes, fileName);
         

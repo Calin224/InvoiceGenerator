@@ -34,6 +34,13 @@
                         materialDesign:HintAssist.Hint="CUI"
                         materialDesign:HintAssist.IsFloating="True">
                     </TextBox>
+                    
+                    <TextBox
+                        x:Name="Address"
+                        Margin="10" Width="200"
+                        materialDesign:HintAssist.Hint="Adresa"
+                        materialDesign:HintAssist.IsFloating="True">
+                    </TextBox>
 
                     <StackPanel Orientation="Vertical">
                         <TextBox
