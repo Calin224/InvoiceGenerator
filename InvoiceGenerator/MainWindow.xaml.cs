@@ -170,7 +170,7 @@ public partial class MainWindow : Window
 
     private void SavePdf(byte[] data, string fileName)
     {
-        var pdfDocument = new Entities.PdfDocument()
+        var pdfDocument = new Entities.PdfDocument() 
         {
             FileName = fileName,
             FileData = data,
