@@ -17,10 +17,10 @@
             <!-- </TextBox> -->
             
             <ComboBox x:Name="Username"></ComboBox>
-
-            <PasswordBox x:Name="Password" Margin="10" materialDesign:HintAssist.Hint="Password"
-                         materialDesign:HintAssist.IsFloating="True">
-            </PasswordBox>
+            <!-- -->
+            <!-- <PasswordBox x:Name="Password" Margin="10" materialDesign:HintAssist.Hint="Password" -->
+            <!--              materialDesign:HintAssist.IsFloating="True"> -->
+            <!-- </PasswordBox> -->
             
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Content="Login" Width="100" Margin="10" HorizontalAlignment="Center" Click="LoginButton_Click" Background="DarkGreen"></Button>

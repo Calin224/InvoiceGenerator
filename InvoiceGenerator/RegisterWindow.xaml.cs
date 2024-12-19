@@ -19,27 +19,27 @@ public partial class RegisterWindow : Window
     private void RegisterButton_Click(object sender, RoutedEventArgs e)
     {
         string username = Username.Text;
-        string password = Password.Password;
-        string confirmPassword = ConfirmPassword.Password;
+        // string password = Password.Password;
+        // string confirmPassword = ConfirmPassword.Password;
         string cif = CIF.Text;
         string address = Adresa.Text;
         string telefon = NumarTelefon.Text;
 
-        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        if (string.IsNullOrWhiteSpace(username))
         {
-            MessageBox.Show("Username and password are required.", "Validation Error", MessageBoxButton.OK,
+            MessageBox.Show("Username is required.", "Validation Error", MessageBoxButton.OK,
                 MessageBoxImage.Error);
             return;
         }
 
-        if (password == confirmPassword)
-        {
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password); // encrypt the password
+        // if (password == confirmPassword)
+        // {
+            // var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password); // encrypt the password
 
             var user = new User()
             {
                 UserName = username,
-                PasswordHash = hashedPassword,
+                // PasswordHash = hashedPassword,
                 CIF = cif,
                 PhoneNumber = telefon,
                 Address = address
@@ -54,12 +54,12 @@ public partial class RegisterWindow : Window
             RegisteredUsername = username;
             DialogResult = true;
             Close();
-        }
-        else
-        {
-            MessageBox.Show("The passwords are not the same!", "Verification error!", MessageBoxButton.OK, MessageBoxImage.Error);
-            ConfirmPassword.Focus();
-        }
+        // }
+        // else
+        // {
+            // MessageBox.Show("The passwords are not the same!", "Verification error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            // ConfirmPassword.Focus();
+        // }
     }
 
     private void LoginRedirect_Click(object sender, RoutedEventArgs e)

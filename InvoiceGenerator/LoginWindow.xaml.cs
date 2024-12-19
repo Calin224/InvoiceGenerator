@@ -25,10 +25,10 @@ public partial class LoginWindow : Window
     private void LoginButton_Click(object sender, RoutedEventArgs e)
     {
         string username = Username.Text;
-        string password = Password.Password;
+        // string password = Password.Password;
 
-        if (ValidateLogin(username, password))
-        {
+        // if (ValidateLogin(username, password))
+        // {
             var user = _context.Users.FirstOrDefault(x => x.UserName == username);
             if (user != null)
             {
@@ -39,21 +39,21 @@ public partial class LoginWindow : Window
             CurrentUsername = username;
             DialogResult = true;
             Close();
-        }
-        else
-        {
-            MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
+        // }
+        // else
+        // {
+            // MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK,
+                // MessageBoxImage.Error);
+        // }
     }
-
-    private bool ValidateLogin(string username, string password)
-    {
-        var user = _context.Users.FirstOrDefault(u => u.UserName == username);
-        if (user == null) return false;
-
-        return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
-    }
+    //
+    // private bool ValidateLogin(string username, string password)
+    // {
+    //     var user = _context.Users.FirstOrDefault(u => u.UserName == username);
+    //     if (user == null) return false;
+    //
+    //     return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+    // }
     
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
@@ -61,7 +61,7 @@ public partial class LoginWindow : Window
         if (registerWindow.ShowDialog() == true)
         {
             Username.Text = registerWindow.RegisteredUsername;
-            Password.Focus();
+            // Password.Focus();
         }
         // registerWindow.ShowDialog();
     }

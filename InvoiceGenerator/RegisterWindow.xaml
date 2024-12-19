@@ -16,12 +16,12 @@
                 materialDesign:HintAssist.IsFloating="True">
             </TextBox>
 
-            <PasswordBox x:Name="Password" Margin="10" materialDesign:HintAssist.Hint="Password"
-                         materialDesign:HintAssist.IsFloating="True">
-            </PasswordBox>
-            
-            <PasswordBox x:Name="ConfirmPassword" Margin="10" materialDesign:HintAssist.Hint="Confirm Password"
-                         materialDesign:HintAssist.IsFloating="True"></PasswordBox>
+            <!-- <PasswordBox x:Name="Password" Margin="10" materialDesign:HintAssist.Hint="Password" -->
+            <!--              materialDesign:HintAssist.IsFloating="True"> -->
+            <!-- </PasswordBox> -->
+            <!-- -->
+            <!-- <PasswordBox x:Name="ConfirmPassword" Margin="10" materialDesign:HintAssist.Hint="Confirm Password" -->
+            <!--              materialDesign:HintAssist.IsFloating="True"></PasswordBox> -->
             
             <TextBox x:Name="CIF" Margin="10" materialDesign:HintAssist.Hint="CIF"
                      materialDesign:HintAssist.IsFloating="True"></TextBox>

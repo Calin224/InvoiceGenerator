@@ -8,6 +8,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.Property(x => x.PasswordHash).HasColumnType("nvarchar(255)");
+        // builder.Property(x => x.PasswordHash).HasColumnType("nvarchar(255)");
     }
 }
