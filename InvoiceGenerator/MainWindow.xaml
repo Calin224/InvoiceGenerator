@@ -74,6 +74,7 @@
             
             <StackPanel Grid.Row="0" Margin="10">
                 <Button Content="Logout" Click="LogoutButton_Click"></Button>
+                <Button Content ="Edit" Click="EditProfileButton_Click"></Button>
             </StackPanel>
             
         </Grid>

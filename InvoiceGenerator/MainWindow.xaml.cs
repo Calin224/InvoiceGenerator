@@ -273,4 +273,10 @@ public partial class MainWindow : Window
         var loginWindow = new LoginWindow();
         loginWindow.ShowDialog();
     }
+
+    private void EditProfileButton_Click(object sender, RoutedEventArgs e)
+    {
+        var editWindow = new EditWindow(User);
+        editWindow.ShowDialog();
+    }
 }

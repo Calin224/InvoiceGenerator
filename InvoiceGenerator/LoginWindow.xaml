@@ -24,7 +24,14 @@
             
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Content="Login" Width="100" Margin="10" HorizontalAlignment="Center" Click="LoginButton_Click" Background="DarkGreen"></Button>
-                <Button Content="Register" Width="100" Margin="10" HorizontalAlignment="Center" Click="CancelButton_Click" Background="DarkRed"/>
+                <Button Content="Register" Width="100" Margin="10" HorizontalAlignment="Center" Click="CancelButton_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black"/>
+                            <GradientStop Color="Black" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
             </StackPanel>
         </StackPanel>
     </Grid>
